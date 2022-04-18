@@ -1,0 +1,97 @@
+node_modules
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+/.firebase
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.angular/cache
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+/try-emulator/node_modules
+/functions/service-accounts/*.json
+node_modules
+node_modules
+node_modules
+node_modules
+.gitold/COMMIT_EDITMSG
+.gitold/config
+.gitold/description
+.gitold/FETCH_HEAD
+.gitold/HEAD
+.gitold/index
+.gitold/ORIG_HEAD
+.gitold/packed-refs
+.gitold/hooks/applypatch-msg.sample
+.gitold/hooks/commit-msg.sample
+.gitold/hooks/fsmonitor-watchman.sample
+.gitold/hooks/post-update.sample
+.gitold/hooks/pre-applypatch.sample
+.gitold/hooks/pre-commit.sample
+.gitold/hooks/pre-merge-commit.sample
+.gitold/hooks/pre-push.sample
+.gitold/hooks/pre-rebase.sample
+.gitold/hooks/pre-receive.sample
+.gitold/hooks/prepare-commit-msg.sample
+.gitold/hooks/push-to-checkout.sample
+.gitold/hooks/update.sample
+.gitold/info/exclude
+.gitold/logs/HEAD
+.gitold/logs/refs/heads/1-start
+.gitold/logs/refs/heads/master
+.gitold/logs/refs/remotes/origin/HEAD
+.gitold/objects/0a/14855b10678a6b5e6b8b55085006f2d95e2594
+.gitold/objects/1d/bc1f151a1a891e72fd09d7bfb00d3753962b1b
+.gitold/objects/20/c156378cfe3b8082f5ca716c2b469d69f59142
+.gitold/objects/42/c5e385f0a1b7ebd146d0873716b9e4d08421e0
+.gitold/objects/4f/45bc441f5763443fdd075c7a01ca8daba1d122
+.gitold/objects/52/0c1b66a7dd171e18e280cfcd5b808c16602f06
+.gitold/objects/71/cd5c7ce4b5528abd4dae45c6f8c0e05c8b8e8d
+.gitold/objects/71/daa7c9f4deeea03b0df98911983db540ef3354
+.gitold/objects/7f/edc1fda481389d4c391ad4af6396eee86cc52c
+.gitold/objects/96/ac38b88b5654b45b21e6a5d906ebf14398a65d
+.gitold/objects/da/2ca6898ec81263e24bea0a7a9992d388290eba
+.gitold/objects/fc/d8c740cb4e48d1894e95118c7080599f7c2d8e
+.gitold/objects/pack/pack-ef4a30443b9574bb280e12137315e334dd504904.idx
+.gitold/objects/pack/pack-ef4a30443b9574bb280e12137315e334dd504904.pack
+.gitold/refs/heads/1-start
+.gitold/refs/heads/master
+.gitold/refs/remotes/origin/HEAD
