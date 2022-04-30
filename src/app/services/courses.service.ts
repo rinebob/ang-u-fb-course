@@ -1,9 +1,13 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
-import {map} from 'rxjs/operators';
+import {from, Observable } from "rxjs";
+import {concatMap, map, tap} from 'rxjs/operators';
+
+import firebase from 'firebase'
+import OrderByDirection = firebase.firestore.OrderByDirection;
 
 import {Course} from '../model/course';
+import {Lesson} from '../model/lesson';
 import { convertSnapshots } from "./db-utils";
 
 
@@ -14,6 +18,110 @@ export class CoursesService {
     constructor(private db: AngularFirestore) {
 
     }
+
+    findLessons(courseId: string, sortOrder: OrderByDirection = 'asc', pageNumber = 0, pageSize = 3): Observable<Lesson[]> {
+        return this.db.collection(`courses/${courseId}/lessons`,
+            ref => ref.orderBy('seqNo', sortOrder)
+            .limit(pageSize)
+            .startAfter(pageNumber * pageSize)
+        )
+        .get()
+        .pipe(
+            map(results => convertSnapshots<Lesson>(results))
+        );
+    }
+
+    findCourseByUrl(url: string): Observable<Course | null> {
+
+        return this.db.collection(`courses`, 
+            ref => ref.where('url', '==', url))
+            .get()
+            .pipe(
+                map(results => {
+                    const courses = convertSnapshots<Course>(results);
+                    return courses.length === 1 ? courses[0] : null;
+                })
+            );
+    }
+
+    deleteCourse(courseId: string) {
+        return from(this.db.doc(`courses/${courseId}`).delete());
+    }
+
+    deleteCourseAndLessons(courseId: string) {
+        return this.db.collection(`courses/${courseId}/lessons`)
+            .get()
+            .pipe(
+                concatMap(results => {
+                    const lessons = convertSnapshots<Lesson>(results);
+                    
+                    const batch = this.db.firestore.batch();
+                    
+                    const courseRef = this.db.doc(`courses/${courseId}`).ref;
+                    
+                    console.log('cS dCAL courseRef: ', courseRef);
+                    
+                    batch.delete(courseRef);
+
+                    console.log('cS dCAL lessons: ', lessons);
+                    for (const lesson of lessons) {
+                        console.log('cS dCAL lesson: ', lesson);
+                        const lessonRef = this.db.doc(`courses/${courseId}/lessons/${lesson.id}`).ref;
+
+                        console.log('cS dCAL lessonRef: ', lessonRef);
+
+                        batch.delete(lessonRef);
+                    }
+
+                    return from(batch.commit());
+
+                })
+            );
+    }
+
+    updateCourse(courseId: string, changes: Partial<Course>) {
+
+        return from(this.db.doc(`courses/${courseId}`).update(changes));
+
+    }
+
+    createCourse(newCourse: Partial<Course>, courseId?: string) {
+        return this.db.collection('courses',
+                ref => ref.orderBy('seqNo', 'desc').limit(1))
+            .get()
+            .pipe(
+                concatMap(result => {
+                    const courses = convertSnapshots<Course>(result);
+                    const lastCourseSeqNo = courses[0]?.seqNo ?? 0;
+                    const course = {
+                        ...newCourse,
+                        seqNo: lastCourseSeqNo + 1,
+                    }
+
+                    let save$: Observable<any>;
+
+                    if (courseId) {
+                        save$ = from(this.db.doc(`courses/${courseId}`).set(course));
+
+                    } else {
+                        save$ = from (this.db.collection('courses').add(course));
+
+                    }
+
+                    return save$.pipe(
+                        map(res => {
+                            return {
+                                id: courseId ?? res.id,
+                                ...course
+                            }
+                        })
+                    );
+
+                })
+            )
+
+    }
+
     loadCoursesByCategory(category: string): Observable<Course[]> {
         const courses: Course[] = [];
 
@@ -24,7 +132,12 @@ export class CoursesService {
             )
             .get()
             .pipe(
-                map(result => convertSnapshots<Course>(result))
+                map(result => {
+                    console.log('c.s result: ', result);
+                    return convertSnapshots<Course>(result)}
+                    )
             );
     }
+
+
 }
