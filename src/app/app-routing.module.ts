@@ -9,6 +9,8 @@ import {AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo} from '@ang
 import {CreateUserComponent} from './create-user/create-user.component';
 import { CourseResolver } from './services/course.resolver';
 
+const adminOnly = () => hasCustomClaim('admin');
+
 const routes: Routes = [
   {
     path: '',
@@ -16,8 +18,11 @@ const routes: Routes = [
   },
   {
     path: 'create-course',
-    component: CreateCourseComponent
-
+    component: CreateCourseComponent,
+    // canActivate: [AngularFireAuthGuard],
+    data: {
+      authGuardPipe: adminOnly
+    },
   },
   {
     path: 'create-user',
