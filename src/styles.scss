@@ -4,6 +4,10 @@
 @use '@angular/material' as mat;
 @import "~firebaseui/dist/firebaseui.css";
 
+:root {
+  --navbar-height: 64px;  //default mat-toolbar height
+}
+
 
 
 // Include non-theme styles for core.
@@ -83,3 +87,7 @@ $theme: mat.define-light-theme($primary, $accent);
 
 // Include all theme styles for the components.
 @include mat.all-component-themes($theme);
+
+html, body {
+  margin: 0;
+}

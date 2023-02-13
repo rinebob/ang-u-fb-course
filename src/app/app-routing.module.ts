@@ -14,12 +14,17 @@ const adminOnly = () => hasCustomClaim('admin');
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: LoginComponent
+  },
+  {
+    path: 'courses',
+    component: HomeComponent,
+    canActivate: [AngularFireAuthGuard],
   },
   {
     path: 'create-course',
     component: CreateCourseComponent,
-    // canActivate: [AngularFireAuthGuard],
+    canActivate: [AngularFireAuthGuard],
     data: {
       authGuardPipe: adminOnly
     },

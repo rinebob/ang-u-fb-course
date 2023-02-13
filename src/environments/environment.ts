@@ -15,7 +15,7 @@ export const environment = {
     appId: "1:137200793159:web:43efc52783ee87f008a362"
 },
   api: {
-
+    createUser: 'http://localhost:5001/ang-u-fb-course/us-central1/createUser',
   }
 };
 

@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "firebase": "firebase",
-    "local-dev": "firebase emulators:start --only firestore,functions --import test-data",
+    "local-dev": "firebase emulators:start --only firestore,auth,functions --import courses-data-23-0211",
     "empty-emulator": "firebase emulators:start",
     "emulator": "firebase emulators:start --import test-data",
     "export": "firebase emulators:export test-data"
@@ -28,6 +28,7 @@
     "@angular/platform-browser-dynamic": "~13.0.3",
     "@angular/router": "~13.0.3",
     "firebase": "^8.2.6",
+    "firebase-functions": "^4.2.1",
     "firebase-tools": "^6.11.0",
     "firebaseui": "^4.7.3",
     "rxjs": "~6.6.0",

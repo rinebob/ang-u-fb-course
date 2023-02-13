@@ -15,19 +15,24 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class HomeComponent implements OnInit {
 
-    beginnersCourses$: Observable<Course[]>;
-
-    advancedCourses$: Observable<Course[]>;
+    beginnersCourses$: Observable<Course[]> = this.coursesService.loadCoursesByCategory('BEGINNER');
+    advancedCourses$: Observable<Course[]> = this.coursesService.loadCoursesByCategory('ADVANCED');
 
     constructor(
       private router: Router,
       private coursesService: CoursesService,
       ) {
+        this.beginnersCourses$.pipe().subscribe(courses => {
+          // console.log('h ctor beginner courses sub: ', courses);
+        });
+
+        this.advancedCourses$.pipe().subscribe(courses => {
+          // console.log('h ctor advanced courses sub: ', courses);
+        });
 
     }
 
     ngOnInit() {
-      this.loadCourses();
 
     }
 

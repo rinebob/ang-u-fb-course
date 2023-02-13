@@ -1,14 +1,34 @@
-<mat-sidenav-container fullscreen>
+<mat-toolbar color="primary">
+
+  <div class="toolbar-tools">
+
+    <button mat-icon-button (click)="start.open('mouse')">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <div class="filler"></div>
+
+    <ng-container *ngIf="user.pictureUrl$ | async as url">
+
+      <img [src]="url" class="user-avatar">
+
+    </ng-container>
+
+  </div>
+
+</mat-toolbar>
+
+<mat-sidenav-container>
 
   <mat-sidenav #start (click)="start.close()">
     <mat-nav-list>
 
-      <a mat-list-item routerLink="/">
+      <a mat-list-item routerLink="/courses" *ngIf="user.isLoggedIn$ | async">
         <mat-icon>library_books</mat-icon>
         <span>Courses</span>
       </a>
 
-      <a mat-list-item routerLink="/create-user">
+      <a mat-list-item routerLink="/create-user" *ngIf="user.isLoggedIn$ | async">
         <mat-icon>add_circle_outline</mat-icon>
         <span>Create user</span>
       </a>
@@ -17,17 +37,17 @@
         <mat-icon>question_answer</mat-icon>
         <span>About</span>
       </a>
-      <a mat-list-item routerLink="login">
+      <a mat-list-item routerLink="login"  *ngIf="user.isLoggedOut$ | async">
         <mat-icon>person_add</mat-icon>
         <span>Register</span>
       </a>
 
-      <a mat-list-item routerLink="login">
+      <a mat-list-item routerLink="login" *ngIf="user.isLoggedOut$ | async">
         <mat-icon>account_circle</mat-icon>
         <span>Login</span>
       </a>
 
-      <a mat-list-item>
+      <a mat-list-item (click)="logout()" *ngIf="user.isLoggedIn$ | async">
         <mat-icon>exit_to_app</mat-icon>
         <span>Logout</span>
       </a>
@@ -35,27 +55,6 @@
     </mat-nav-list>
 
   </mat-sidenav>
-
-  <mat-toolbar color="primary">
-
-    <div class="toolbar-tools">
-
-      <button mat-icon-button (click)="start.open('mouse')">
-        <mat-icon>menu</mat-icon>
-      </button>
-
-      <div class="filler"></div>
-
-      <ng-container>
-
-        <img class="user-avatar">
-
-      </ng-container>
-
-    </div>
-
-
-  </mat-toolbar>
 
   <router-outlet></router-outlet>
 

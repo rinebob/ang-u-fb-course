@@ -74,9 +74,10 @@ export class CreateCourseComponent implements OnInit {
 
     }
 
+    if (this.form.value.promoStartAt) {
+      newCourse.promoStartAt = Timestamp.fromDate(this.form.value.promoStartAt);
 
-
-    newCourse.promoStartAt = Timestamp.fromDate(this.form.value.promoStartAt);
+    }
     console.log('cC hCC new course: ', newCourse);
 
     this.coursesService.createCourse(newCourse, this.courseId)

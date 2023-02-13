@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularFireAuth} from '@angular/fire/auth';
-import {from, Observable} from 'rxjs';
-import {concatMap, filter, map} from 'rxjs/operators';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {Router} from '@angular/router';
+import { UserService } from './services/user.service';
+import { AuthTokenService } from './services/auth-token.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +10,19 @@ import {Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
-
+  constructor(public user: UserService,
+              private token: AuthTokenService,
+              private router: Router
+    ) {}
+  
+  ngOnInit() {
+    // this.user.isLoggedIn$.pipe().subscribe(status => console.log('a ctor logged in sub: ', status));
+    // this.user.isLoggedOut$.pipe().subscribe(status => console.log('a ctor logged out sub: ', status));
   }
 
-  ngOnInit() {
-
+  logout() {
+    this.user.logout();
+    this.router.navigateByUrl('/login')
   }
 
 }
