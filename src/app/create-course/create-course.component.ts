@@ -24,12 +24,17 @@ export class CreateCourseComponent implements OnInit {
 
   form = this.fb.group({
     description: ['', Validators.required],
-    url: ['', Validators.required],
+    // url: ['', Validators.required],
+    url: [''],
     category: [[], Validators.required],
     longDescription: ['', Validators.required],
     promo: [false],
     promoStartAt: [null],
+    iconUrl: [''],
+    seqNo: [''],
   });
+
+  iconUrl = '';
 
   constructor(private fb: FormBuilder,
     private coursesService: CoursesService,
@@ -55,11 +60,20 @@ export class CreateCourseComponent implements OnInit {
 
     this.percentageChanges$ = task.percentageChanges();
 
-    task.snapshotChanges().subscribe();
+    task.snapshotChanges().pipe(
+      last(),
+      concatMap(() => this.storage.ref(filePath).getDownloadURL()),
+      tap(url => {
+        console.log('cC uT icon url: ', url);
+        this.iconUrl = url;
+      }),
+      catchError(err => {
+        console.log('cC uT error: ', err);
+        alert('couldnt create the thumbnail url dude!  wtf???');
+        return throwError(err);
+      })
 
-
-
-    
+    ).subscribe();
   }
 
   handleCreateCourse() {
@@ -71,6 +85,8 @@ export class CreateCourseComponent implements OnInit {
       longDescription: val.longDescription,
       promo: val.promo,
       categories: [val.category],
+      iconUrl: this.iconUrl,
+      seqNo: Number(val.seqNo),
 
     }
 

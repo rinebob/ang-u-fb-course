@@ -1,5 +1,9 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
+import { pipe } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { customClaims } from '@angular/fire/auth-guard';
+
 import {HomeComponent} from './home/home.component';
 import {AboutComponent} from './about/about.component';
 import {CourseComponent} from './course/course.component';
@@ -9,17 +13,21 @@ import {AngularFireAuthGuard, hasCustomClaim, redirectUnauthorizedTo} from '@ang
 import {CreateUserComponent} from './create-user/create-user.component';
 import { CourseResolver } from './services/course.resolver';
 
-const adminOnly = () => hasCustomClaim('admin');
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo('login');
+const adminPresent = () => hasCustomClaim('admin');
+const adminOnly = () => pipe(customClaims, map(claims => claims.admin === true));
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    redirectTo: '/login',
+    pathMatch: 'full',
   },
   {
     path: 'courses',
     component: HomeComponent,
     canActivate: [AngularFireAuthGuard],
+    data: {authGuardPipe: redirectUnauthorizedToLogin}
   },
   {
     path: 'create-course',
@@ -31,8 +39,11 @@ const routes: Routes = [
   },
   {
     path: 'create-user',
-    component: CreateUserComponent
-
+    component: CreateUserComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: {
+      authGuardPipe: adminOnly
+    },
   },
   {
     path: 'about',
@@ -45,13 +56,15 @@ const routes: Routes = [
   {
     path: 'courses/:courseUrl',
     component: CourseComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: {authGuardPipe: redirectUnauthorizedToLogin},
     resolve: {
       course: CourseResolver
     }
   },
   {
     path: '**',
-    redirectTo: '/'
+    redirectTo: '/login'
   }
 ];
 

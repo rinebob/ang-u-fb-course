@@ -28,10 +28,12 @@
         <span>Courses</span>
       </a>
 
-      <a mat-list-item routerLink="/create-user" *ngIf="user.isLoggedIn$ | async">
-        <mat-icon>add_circle_outline</mat-icon>
-        <span>Create user</span>
-      </a>
+      <ng-container *ngIf="user.roles$ | async as roles">
+        <a mat-list-item routerLink="/create-user" *ngIf="roles['admin'] === true">
+          <mat-icon>add_circle_outline</mat-icon>
+          <span>Create user</span>
+        </a>
+      </ng-container>
 
       <a mat-list-item routerLink="about">
         <mat-icon>question_answer</mat-icon>
