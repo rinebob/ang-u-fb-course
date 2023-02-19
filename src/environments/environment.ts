@@ -2,18 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import { firebaseConfig } from './firebase-config';
+
 export const environment = {
   production: false,
   useEmulators: true,
-  // useEmulators: false,
-  firebase: {
-    apiKey: "AIzaSyBr80luI_4HGzjkJqspvVSmOVlCe9yOUgA",
-    authDomain: "ang-u-fb-course.firebaseapp.com",
-    projectId: "ang-u-fb-course",
-    storageBucket: "ang-u-fb-course.appspot.com",
-    messagingSenderId: "137200793159",
-    appId: "1:137200793159:web:43efc52783ee87f008a362"
-},
+  firebase: firebaseConfig,
   api: {
     createUser: 'http://localhost:5001/ang-u-fb-course/us-central1/createUser',
   }
